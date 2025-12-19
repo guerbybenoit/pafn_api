@@ -1,0 +1,25 @@
+# Configuration minimale de docker-compose pour débuter.
+services:
+  flask-app:
+    build: .
+    container_name: pafn_api
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      mongodb:
+        condition: service_started
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb_pafn_api
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
